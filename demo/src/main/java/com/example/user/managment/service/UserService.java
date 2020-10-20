@@ -2,6 +2,7 @@ package com.example.user.managment.service;
 
 import com.example.user.managment.model.Rights;
 import com.example.user.managment.model.SimpleUser;
+import com.example.user.managment.model.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,13 +12,13 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class UserService {
 
-  List<SimpleUser> simpleUsers;
+  List<User> simpleUsers;
 
-  public UserService(List<SimpleUser> simpleUsers) {
+  public UserService(List<User> simpleUsers) {
     this.simpleUsers = simpleUsers;
   }
 
-  public List<SimpleUser> getUsers(Rights rights) {
+  public List<User> getUsers(Rights rights) {
     if (!rights.equals(Rights.SIMPLE_USER)) {
       System.out.println("User doesn't have proper rights");
       return null;
@@ -29,16 +30,21 @@ public class UserService {
     return simpleUsers;
   }
 
-  public String getAboutInfo(SimpleUser simpleUser, Rights rights) {
+  public String getAboutInfo(User simpleUser, Rights rights) {
     if (!rights.equals(Rights.SIMPLE_USER)) {
       System.out.println("User doesn't have proper rights");
       return null;
     }
-    System.out.println("INFO ABOUT USER:\n " + "NAME: " + simpleUser.getName() + "\n ROLE: " + simpleUser.getRole());
-    return simpleUser.getName() + simpleUser.getRole();
+    if(simpleUsers.contains(simpleUser)) {
+      System.out.println("INFO ABOUT USER:\n " + "NAME: " + simpleUser.getName() + "\n ROLE: " + simpleUser.getRole());
+      return simpleUser.getName() + simpleUser.getRole();
+    } else{
+      System.out.println("User " +simpleUser.getName()+ " hasn't been found in the list");
+      return null;
+    }
   }
 
-  public List<SimpleUser> createUser(SimpleUser simpleUser, Rights rights) {
+  public List<User> createUser(User simpleUser, Rights rights) {
     if (!rights.equals(Rights.ADMIN)) {
       System.out.println("User doesn't have rights");
     }
@@ -47,7 +53,7 @@ public class UserService {
     return simpleUsers;
   }
 
-  public void deleteUser(SimpleUser simpleUser, Rights rights) {
+  public void deleteUser(User simpleUser, Rights rights) {
     if (!rights.equals(Rights.ADMIN)) {
       System.out.println("User doesn't have rights");
       return;
@@ -56,13 +62,13 @@ public class UserService {
     System.out.println("User " + simpleUser.getName() + " has been deleted");
   }
 
-  public void giveRights(SimpleUser simpleUser, Rights rights) {
+  public void giveRights(User simpleUser, Rights rights) {
     if (!rights.equals(Rights.ADMIN)) {
       System.out.println("User doesn't have rights");
       return;
     }
     simpleUser.setRole(Rights.ADMIN);
-    System.out.println("ROLE is " + simpleUser.getRole());
+    System.out.println("New ROLE is " + simpleUser.getRole());
   }
 
 }

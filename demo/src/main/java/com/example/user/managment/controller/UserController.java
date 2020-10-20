@@ -2,6 +2,7 @@ package com.example.user.managment.controller;
 
 import com.example.user.managment.model.Rights;
 import com.example.user.managment.model.SimpleUser;
+import com.example.user.managment.model.User;
 import com.example.user.managment.service.UserService;
 
 import org.springframework.http.HttpStatus;
@@ -25,28 +26,29 @@ public class UserController {
   }
 
   @GetMapping
-  public List<SimpleUser> getUsers(Rights rights) {
+  public List<User> getUsers(Rights rights)
+  {
     return userService.getUsers(rights);
   }
 
-  public String getAboutInfo(SimpleUser simpleUser, Rights rights) {
+  public String getAboutInfo(User simpleUser, Rights rights) {
     return userService.getAboutInfo(simpleUser, rights);
   }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public List<SimpleUser> createUser(SimpleUser simpleUsers, Rights rights) {
+  public List<User> createUser(User simpleUsers, Rights rights) {
     return userService.createUser(simpleUsers, rights);
   }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public void giveUserRights(SimpleUser simpleUser, Rights rights) {
+  public void giveUserRights(User simpleUser, Rights rights) {
     userService.giveRights(simpleUser, rights);
   }
 
   @DeleteMapping
-  public void deleteUser(SimpleUser simpleUser, Rights rights) {
+  public void deleteUser(User simpleUser, Rights rights) {
     userService.deleteUser(simpleUser, rights);
   }
 

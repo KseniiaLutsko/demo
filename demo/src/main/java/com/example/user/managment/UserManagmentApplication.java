@@ -4,6 +4,7 @@ import com.example.user.managment.controller.UserController;
 import com.example.user.managment.model.AdminUser;
 import com.example.user.managment.model.Rights;
 import com.example.user.managment.model.SimpleUser;
+import com.example.user.managment.model.User;
 import com.example.user.managment.service.UserService;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -18,7 +19,7 @@ import java.util.List;
 public class UserManagmentApplication {
 
   public static void main(String[] args) {
-    List<SimpleUser> simpleUsers = new ArrayList<>();
+    List<User> simpleUsers = new ArrayList<>();
     UserController user = new UserController(new UserService(simpleUsers));
     AdminUser quacker = new AdminUser();
     quacker.setName("Quacker");
@@ -28,7 +29,7 @@ public class UserManagmentApplication {
     tom.setName("Tom");
     tom.setRole(Rights.SIMPLE_USER);
 
-    SimpleUser jerry = new SimpleUser();
+    User jerry = new SimpleUser();
     jerry.setName("Jerry");
     jerry.setRole(Rights.SIMPLE_USER);
 
@@ -39,7 +40,7 @@ public class UserManagmentApplication {
     user.createUser(jerry, quacker.getRole());
     user.createUser(tom, quacker.getRole());
     user.createUser(topsy, quacker.getRole());
-    //user.deleteUser(jerry, quacker.getRole());
+    user.deleteUser(jerry, quacker.getRole());
     user.getAboutInfo(jerry, jerry.getRole());
     user.giveUserRights(jerry, quacker.getRole());
     user.getAboutInfo(jerry, jerry.getRole());
